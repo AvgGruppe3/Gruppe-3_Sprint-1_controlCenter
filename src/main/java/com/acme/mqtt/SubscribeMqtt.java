@@ -4,12 +4,19 @@ import com.acme.Topic;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttAsyncClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
+@PropertySource("classpath:mqtt.properties")
 @Component
 public class SubscribeMqtt {
+
+    @Value("${mqtt.broker.uri}")
+    private String uri;
+
     private final MqttCallbackImpl mqttCallbackImpl;
 
     public SubscribeMqtt(MqttCallbackImpl mqttCallbackImpl) {
@@ -17,7 +24,7 @@ public class SubscribeMqtt {
     }
 
     public void subscribe() throws MqttException {
-        MqttAsyncClient myClient = new MqttAsyncClient("tcp://192.168.0.171:1883", UUID.randomUUID().toString());
+        MqttAsyncClient myClient = new MqttAsyncClient(uri, UUID.randomUUID().toString());
 
         myClient.setCallback(mqttCallbackImpl);
 
