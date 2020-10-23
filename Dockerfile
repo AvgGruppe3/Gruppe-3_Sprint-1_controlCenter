@@ -4,3 +4,4 @@ WORKDIR application
 ARG JAR_FILE=target/controlcenter-*.jar
 COPY ${JAR_FILE} application.jar
 ENTRYPOINT ["java", "-jar", "application.jar"]
+EXPOSE 8081/tcp
