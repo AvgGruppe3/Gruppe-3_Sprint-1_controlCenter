@@ -4,6 +4,8 @@ import com.acme.Topic;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttAsyncClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
@@ -13,6 +15,7 @@ import java.util.UUID;
 @PropertySource("classpath:mqtt.properties")
 @Component
 public class SubscribeMqtt {
+    private Logger logger = LoggerFactory.getLogger(SubscribeMqtt.class);
 
     @Value("${mqtt.broker.uri}")
     private String uri;
@@ -30,6 +33,7 @@ public class SubscribeMqtt {
 
         IMqttToken token = myClient.connect();
         token.waitForCompletion();
+        logger.info("connected to mqtt-broker: " + token.isComplete());
         String[] topics = {Topic.Temperature_1.path, Topic.Temperature_2.path};
         int[] qoss = {0, 0};
         myClient.subscribe(topics, qoss);
