@@ -14,10 +14,6 @@ public class EmailService {
     private String sender;
     @Value("${email.recipient}")
     private String recipient;
-    @Value("${email.subtext}")
-    private String subtext;
-    @Value("${email.text}")
-    private String text;
 
     private final JavaMailSender javaMailSender;
 
