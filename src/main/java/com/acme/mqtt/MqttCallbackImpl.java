@@ -1,5 +1,7 @@
-package com.acme;
+package com.acme.mqtt;
 
+import com.acme.EmailService;
+import com.acme.Topic;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -11,12 +13,10 @@ import java.nio.charset.StandardCharsets;
 @Component
 public class MqttCallbackImpl implements MqttCallback {
     private final EmailService emailService;
-    private final Temperature temperature;
 
     @Autowired
-    public MqttCallbackImpl(EmailService emailService, Temperature temperature) {
+    public MqttCallbackImpl(EmailService emailService) {
         this.emailService = emailService;
-        this.temperature = temperature;
     }
 
     @Override
@@ -29,8 +29,17 @@ public class MqttCallbackImpl implements MqttCallback {
         String temperatureString = new String(mqttMessage.getPayload(), StandardCharsets.UTF_8);
         System.out.println(topic + ": " + temperatureString);
         int temperatureValue = Integer.parseInt(temperatureString);
-        temperature.setValue(temperatureValue);
-        emailService.sendEmail(temperatureValue);
+        if(Topic.Temperature_1.value.equals(topic)){
+            Topic.Temperature_1.temperature = temperatureValue;
+        }else if(Topic.Temperature_2.value.equals(topic)){
+            Topic.Temperature_2.temperature = temperatureValue;
+        }
+        
+        if(temperatureValue >35) {
+            emailService.sendEmail(temperatureValue, "Alarm");
+        }else if(temperatureValue >25){
+            emailService.sendEmail(temperatureValue, "Warnung");
+        }
     }
 
     @Override

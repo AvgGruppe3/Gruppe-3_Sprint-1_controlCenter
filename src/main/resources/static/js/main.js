@@ -1,29 +1,40 @@
 'use strict';
 
-const singleFileUploadError = document.querySelector('#singleFileUploadError');
+const temp1 = document.querySelector('#temp1');
+const temp2 = document.querySelector('#temp2');
 
 
-function doGet() {
-    const url  = "http://localhost:8081/temp";
+function invokeGet(url, div){
     const xhr  = new XMLHttpRequest()
     xhr.open('GET', url, true)
     xhr.onload = function () {
         const temperature = xhr.responseText;
         if (xhr.readyState === 4 && xhr.status === 200) {
-            singleFileUploadError.innerHTML = temperature;
-            if(temperature >30){
-                singleFileUploadError.style.background = '#910713';
+            div.innerHTML = temperature;
+            if(temperature >35){
+                div.style.background = '#910713';
             }else if(temperature >25){
-                singleFileUploadError.style.background = '#e69c25';
+                div.style.background = '#e69c25';
             } else{
-                singleFileUploadError.style.background = '#25e62b';
+                div.style.background = '#25e62b';
             }
         } else {
             console.error(xhr.responseText);
         }
     }
     xhr.send(null);
-
-    setTimeout(doGet, 5000);
 }
-doGet();
+function doGet1() {
+    const url  = "http://localhost:8081/temp1";
+    invokeGet(url, temp1);
+    setTimeout(doGet1, 5000);
+}
+
+function doGet2() {
+    const url  = "http://localhost:8081/temp2";
+    invokeGet(url, temp2);
+    setTimeout(doGet2, 5000);
+}
+
+doGet1();
+doGet2();

@@ -1,5 +1,6 @@
-package com.acme;
+package com.acme.mqtt;
 
+import com.acme.Topic;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttAsyncClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -22,8 +23,8 @@ public class SubscribeMqtt {
 
         IMqttToken token = myClient.connect();
         token.waitForCompletion();
-        String[] topics = {"hska/avg/temperature", "hska/avg/altitude", "hska/avg/press"};
-        int[] qoss = {0, 0, 0};
+        String[] topics = {Topic.Temperature_1.value, Topic.Temperature_2.value};
+        int[] qoss = {0, 0};
         myClient.subscribe(topics, qoss);
     }
 }

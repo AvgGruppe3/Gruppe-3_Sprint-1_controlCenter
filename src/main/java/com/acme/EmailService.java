@@ -14,12 +14,12 @@ public class EmailService {
         this.javaMailSender = javaMailSender;
     }
 
-    public void sendEmail(int temperature) {
+    public void sendEmail(int temperature, String alertStage) {
 
         SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setFrom("maschine1@alarm.de");
+        msg.setFrom("maschine1@meldung.de");
         msg.setTo("irgendwas@acme.com");
-        msg.setSubject("Maschine 1 Alarm");
+        msg.setSubject("Maschine 1 " + alertStage);
         msg.setText("Die Maschine hat eine Temperature von: " + temperature + "°C");
 
         javaMailSender.send(msg);

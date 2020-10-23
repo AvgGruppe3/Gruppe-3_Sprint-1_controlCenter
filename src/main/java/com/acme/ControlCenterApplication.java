@@ -1,5 +1,6 @@
 package com.acme;
 
+import com.acme.mqtt.SubscribeMqtt;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
