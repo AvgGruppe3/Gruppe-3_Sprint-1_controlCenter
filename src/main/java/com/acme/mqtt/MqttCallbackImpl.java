@@ -1,6 +1,6 @@
 package com.acme.mqtt;
 
-import com.acme.EmailService;
+import com.acme.email.EmailService;
 import com.acme.Topic;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
@@ -29,12 +29,12 @@ public class MqttCallbackImpl implements MqttCallback {
         String temperatureString = new String(mqttMessage.getPayload(), StandardCharsets.UTF_8);
         System.out.println(topic + ": " + temperatureString);
         int temperatureValue = Integer.parseInt(temperatureString);
-        if(Topic.Temperature_1.value.equals(topic)){
+        if(Topic.Temperature_1.path.equals(topic)){
             Topic.Temperature_1.temperature = temperatureValue;
-        }else if(Topic.Temperature_2.value.equals(topic)){
+        }else if(Topic.Temperature_2.path.equals(topic)){
             Topic.Temperature_2.temperature = temperatureValue;
         }
-        
+
         if(temperatureValue >35) {
             emailService.sendEmail(temperatureValue, "Alarm");
         }else if(temperatureValue >25){

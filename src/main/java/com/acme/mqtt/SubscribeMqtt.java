@@ -23,7 +23,7 @@ public class SubscribeMqtt {
 
         IMqttToken token = myClient.connect();
         token.waitForCompletion();
-        String[] topics = {Topic.Temperature_1.value, Topic.Temperature_2.value};
+        String[] topics = {Topic.Temperature_1.path, Topic.Temperature_2.path};
         int[] qoss = {0, 0};
         myClient.subscribe(topics, qoss);
     }

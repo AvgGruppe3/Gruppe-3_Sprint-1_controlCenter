@@ -4,10 +4,10 @@ public enum Topic {
     Temperature_1("hska/avg/temperature1"),
     Temperature_2("hska/avg/temperature2");
 
-    public final String value;
+    public final String path;
     public int temperature;
-     Topic(String value) {
-        this.value = value;
+     Topic(String path) {
+        this.path = path;
         this.temperature = 0;
     }
 
