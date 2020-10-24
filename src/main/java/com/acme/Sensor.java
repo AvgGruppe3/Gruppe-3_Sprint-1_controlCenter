@@ -7,19 +7,18 @@ public enum Sensor {
     public final String mqttTopic;
     public int temperature;
     public final String machine;
+    public long timestampEmail;
 
      Sensor(String mqttTopic, String machine) {
         this.mqttTopic = mqttTopic;
         this.temperature = 0;
+        this.timestampEmail = 0L;
         this.machine = machine;
-    }
-    String getMqttTopic(){
-         return  mqttTopic;
     }
 
     public static Sensor getSensorByMqttTopic(String value) {
         for(Sensor sensor : values()) {
-            if (sensor.getMqttTopic().equalsIgnoreCase(value)) {
+            if (sensor.mqttTopic.equalsIgnoreCase(value)) {
                 return sensor;
             }
         }

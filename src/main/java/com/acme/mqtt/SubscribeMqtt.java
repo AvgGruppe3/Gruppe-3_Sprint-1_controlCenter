@@ -33,7 +33,7 @@ public class SubscribeMqtt {
 
         IMqttToken token = myClient.connect();
         token.waitForCompletion();
-        logger.info("connected to mqtt-broker: " + token.isComplete());
+        logger.info("connected to mqtt-broker: {}", token.isComplete());
         String[] topics = {Sensor.SENSOR_1.mqttTopic, Sensor.SENSOR_2.mqttTopic};
         int[] qoss = {0, 0};
         myClient.subscribe(topics, qoss);

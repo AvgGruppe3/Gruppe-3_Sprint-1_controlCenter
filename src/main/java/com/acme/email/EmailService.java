@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailService {
 
-    private Logger logger = LoggerFactory.getLogger(EmailService.class);
+    private final Logger logger = LoggerFactory.getLogger(EmailService.class);
 
     @Value("${email.sender}")
     private String sender;
@@ -30,18 +30,18 @@ public class EmailService {
     }
 
     public void sendEmail(Sensor sensor, String alertStage) {
-
         SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setFrom(sender);
+        msg.setFrom(sensor.machine.replaceAll("\\s","") + sender);
         msg.setTo(recipient);
-        msg.setSubject(sensor.machine + " " + alertStage);
-        msg.setText("Die " + sensor.machine + " hat eine Temperature von: " + sensor.temperature + "°C");
-        logger.info("send email to " + recipient);
+        msg.setSubject("%s %s".formatted(sensor.machine, alertStage));
+        msg.setText("Die %s hat eine Temperature von: %d°C".formatted(sensor.machine, sensor.temperature));
+        logger.info("send email to {}", recipient);
         try {
             javaMailSender.send(msg);
+            sensor.timestampEmail = System.currentTimeMillis();
             logger.info("successfully sent an e-mail");
         }catch (MailException e){
-            logger.info("Failed to send an e-mail; " +e.getMessage());
+            logger.info("Failed to send an e-mail; {}", e.getMessage());
         }
     }
 }

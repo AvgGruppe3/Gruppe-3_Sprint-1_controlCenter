@@ -37,16 +37,21 @@ public class MqttCallbackImpl implements MqttCallback {
     public void messageArrived(String topic, MqttMessage mqttMessage) {
         String temperatureString = new String(mqttMessage.getPayload(), StandardCharsets.UTF_8);
         logger.info(topic + ": " + temperatureString);
-        int temperatureValue = Integer.parseInt(temperatureString);
+        try {
+            int temperatureValue = Integer.parseInt(temperatureString);
 
-        Sensor sensor = Sensor.getSensorByMqttTopic(topic);
-        logger.info(sensor.name());
-        sensor.temperature = temperatureValue;
+            Sensor sensor = Sensor.getSensorByMqttTopic(topic);
+            sensor.temperature = temperatureValue;
+            if(System.currentTimeMillis() >= (sensor.timestampEmail + 60000)) {
+                if (temperatureValue > 35) {
+                    emailService.sendEmail(sensor, "Alarm");
+                } else if (temperatureValue > 25) {
+                    emailService.sendEmail(sensor, "Warnung");
+                }
+            }
 
-        if(temperatureValue >35) {
-            emailService.sendEmail(sensor, "Alarm");
-        }else if(temperatureValue >25){
-            emailService.sendEmail(sensor, "Warnung");
+        }catch (NumberFormatException e){
+            logger.info("sent message is not a number: {}", mqttMessage );
         }
 
     }
