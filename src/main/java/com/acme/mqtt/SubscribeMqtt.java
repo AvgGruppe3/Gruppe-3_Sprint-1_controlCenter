@@ -1,6 +1,6 @@
 package com.acme.mqtt;
 
-import com.acme.Topic;
+import com.acme.Sensor;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttAsyncClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -34,7 +34,7 @@ public class SubscribeMqtt {
         IMqttToken token = myClient.connect();
         token.waitForCompletion();
         logger.info("connected to mqtt-broker: " + token.isComplete());
-        String[] topics = {Topic.Temperature_1.path, Topic.Temperature_2.path};
+        String[] topics = {Sensor.SENSOR_1.mqttTopic, Sensor.SENSOR_2.mqttTopic};
         int[] qoss = {0, 0};
         myClient.subscribe(topics, qoss);
     }

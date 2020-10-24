@@ -1,7 +1,7 @@
 package com.acme.mqtt;
 
 import com.acme.email.EmailService;
-import com.acme.Topic;
+import com.acme.Sensor;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -29,26 +29,25 @@ public class MqttCallbackImpl implements MqttCallback {
     }
 
     @Override
+    public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
+        //Auto-generated method stub
+    }
+
+    @Override
     public void messageArrived(String topic, MqttMessage mqttMessage) {
         String temperatureString = new String(mqttMessage.getPayload(), StandardCharsets.UTF_8);
         logger.info(topic + ": " + temperatureString);
         int temperatureValue = Integer.parseInt(temperatureString);
 
-        if(Topic.Temperature_1.path.equals(topic)){
-            Topic.Temperature_1.temperature = temperatureValue;
-        }else if(Topic.Temperature_2.path.equals(topic)){
-            Topic.Temperature_2.temperature = temperatureValue;
-        }
+        Sensor sensor = Sensor.getSensorByMqttTopic(topic);
+        logger.info(sensor.name());
+        sensor.temperature = temperatureValue;
 
         if(temperatureValue >35) {
-            emailService.sendEmail(temperatureValue, "Alarm");
+            emailService.sendEmail(sensor, "Alarm");
         }else if(temperatureValue >25){
-            emailService.sendEmail(temperatureValue, "Warnung");
+            emailService.sendEmail(sensor, "Warnung");
         }
-    }
 
-    @Override
-    public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
-        //Auto-generated method stub
     }
 }

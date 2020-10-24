@@ -1,6 +1,6 @@
 package com.acme.email;
 
-import com.acme.mqtt.MqttCallbackImpl;
+import com.acme.Sensor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class EmailService {
 
-    private Logger logger = LoggerFactory.getLogger(MqttCallbackImpl.class);
+    private Logger logger = LoggerFactory.getLogger(EmailService.class);
 
     @Value("${email.sender}")
     private String sender;
@@ -29,13 +29,13 @@ public class EmailService {
         this.javaMailSender = javaMailSender;
     }
 
-    public void sendEmail(int temperature, String alertStage) {
+    public void sendEmail(Sensor sensor, String alertStage) {
 
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setFrom(sender);
         msg.setTo(recipient);
-        msg.setSubject("Industrieanlage " + alertStage);
-        msg.setText("Die Industrieanlage hat eine Temperature von: " + temperature + "°C");
+        msg.setSubject(sensor.machine + " " + alertStage);
+        msg.setText("Die " + sensor.machine + " hat eine Temperature von: " + sensor.temperature + "°C");
         logger.info("send email to " + recipient);
         try {
             javaMailSender.send(msg);
