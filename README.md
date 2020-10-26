@@ -4,3 +4,6 @@
 * start application
 
 Have fun
+
+* mvn clean install
+* docker build -t controlcenter:1.0.1 .

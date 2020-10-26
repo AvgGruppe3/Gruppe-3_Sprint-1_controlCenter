@@ -5,13 +5,13 @@ public enum Sensor {
     SENSOR_2("hska/avg/temperature2", "Industrieanlage 2");
 
     public final String mqttTopic;
-    public int temperature;
+    public double temperature;
     public final String machine;
     public long timestampEmail;
 
      Sensor(String mqttTopic, String machine) {
         this.mqttTopic = mqttTopic;
-        this.temperature = 0;
+        this.temperature = 0.0;
         this.timestampEmail = 0L;
         this.machine = machine;
     }

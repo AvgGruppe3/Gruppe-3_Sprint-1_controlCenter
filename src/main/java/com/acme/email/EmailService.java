@@ -34,7 +34,7 @@ public class EmailService {
         msg.setFrom(sensor.machine.replaceAll("\\s","") + sender);
         msg.setTo(recipient);
         msg.setSubject("%s %s".formatted(sensor.machine, alertStage));
-        msg.setText("Die %s hat eine Temperature von: %d°C".formatted(sensor.machine, sensor.temperature));
+        msg.setText("Die %s hat eine Temperature von: %f°C".formatted(sensor.machine, sensor.temperature));
         logger.info("send email to {}", recipient);
         try {
             javaMailSender.send(msg);

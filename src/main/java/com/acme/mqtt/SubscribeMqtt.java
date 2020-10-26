@@ -15,7 +15,7 @@ import java.util.UUID;
 @PropertySource("classpath:mqtt.properties")
 @Component
 public class SubscribeMqtt {
-    private Logger logger = LoggerFactory.getLogger(SubscribeMqtt.class);
+    private final Logger logger = LoggerFactory.getLogger(SubscribeMqtt.class);
 
     @Value("${mqtt.broker.uri}")
     private String uri;

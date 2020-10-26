@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 
 @Component
 public class MqttCallbackImpl implements MqttCallback {
-    private Logger logger = LoggerFactory.getLogger(MqttCallbackImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(MqttCallbackImpl.class);
 
     private final EmailService emailService;
 
@@ -38,7 +38,7 @@ public class MqttCallbackImpl implements MqttCallback {
         String temperatureString = new String(mqttMessage.getPayload(), StandardCharsets.UTF_8);
         logger.info(topic + ": " + temperatureString);
         try {
-            int temperatureValue = Integer.parseInt(temperatureString);
+            double temperatureValue = Double.parseDouble(temperatureString);
 
             Sensor sensor = Sensor.getSensorByMqttTopic(topic);
             sensor.temperature = temperatureValue;
