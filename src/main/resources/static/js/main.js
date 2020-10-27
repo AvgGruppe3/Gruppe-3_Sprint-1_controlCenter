@@ -3,8 +3,7 @@
 const temp1 = document.querySelector('#temp1');
 const temp2 = document.querySelector('#temp2');
 
-
-function invokeGet(url, div){
+const invokeGet = (url, div) =>{
     const xhr  = new XMLHttpRequest()
     xhr.open('GET', url, true)
     xhr.onload = function () {
@@ -24,17 +23,18 @@ function invokeGet(url, div){
     }
     xhr.send(null);
 }
-function doGet1() {
+
+const getTemperature1 = () => {
     const url  = "http://localhost:8081/temp1";
     invokeGet(url, temp1);
-    setTimeout(doGet1, 5000);
+    setTimeout(getTemperature1, 5000);
 }
 
-function doGet2() {
+const getTemperature2 = () => {
     const url  = "http://localhost:8081/temp2";
     invokeGet(url, temp2);
-    setTimeout(doGet2, 5000);
-}
+    setTimeout(getTemperature2, 5000);
+};
 
-doGet1();
-doGet2();
+getTemperature1();
+getTemperature2();
