@@ -42,5 +42,4 @@ build/
 # Editor-based HTTP Client requests
 /httpRequests/
 
-mqtt-receiver.iml
 .lck

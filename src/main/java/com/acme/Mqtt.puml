@@ -1,0 +1,26 @@
+@startuml
+
+package "Publisher" {
+[Sensor 1]
+[Sensor 2]
+}
+
+package "Messaging Oriented Middleware"{
+[Sensor 1] -->  [Mqtt-Broker] : publish
+[Sensor 2] --> [Mqtt-Broker] : publish
+
+}
+
+package "Subscriber" {
+[Mqtt-Broker] --> [ControlCenter] : publish
+[Mqtt-Broker] <.. [ControlCenter] : subscribe
+[ControlCenter]
+
+[Mqtt-Broker] --> [Protocoller] : publish
+[Mqtt-Broker] <.. [Protocoller] : subscribe
+[Protocoller]
+}
+
+
+
+@enduml

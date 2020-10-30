@@ -3,6 +3,7 @@ package com.acme.mqtt;
 import com.acme.Sensor;
 import org.eclipse.paho.client.mqttv3.IMqttToken;
 import org.eclipse.paho.client.mqttv3.MqttAsyncClient;
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +28,7 @@ public class SubscribeMqtt {
     }
 
     public void subscribe() throws MqttException {
-        MqttAsyncClient myClient = new MqttAsyncClient(uri, UUID.randomUUID().toString());
+        MqttAsyncClient myClient = new MqttAsyncClient(uri, "controllcenter");
 
         myClient.setCallback(mqttCallbackImpl);
 
@@ -35,7 +36,7 @@ public class SubscribeMqtt {
         token.waitForCompletion();
         logger.info("connected to mqtt-broker: {}", token.isComplete());
         String[] topics = {Sensor.SENSOR_1.mqttTopic, Sensor.SENSOR_2.mqttTopic};
-        int[] qoss = {0, 0};
+        int[] qoss = {1, 1};
         myClient.subscribe(topics, qoss);
     }
 }

@@ -33,8 +33,8 @@ public class EmailService {
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setFrom(sensor.machine.replaceAll("\\s","") + sender);
         msg.setTo(recipient);
-        msg.setSubject("%s %s".formatted(sensor.machine, alertStage));
-        msg.setText("Die %s hat eine Temperature von: %f°C".formatted(sensor.machine, sensor.temperature));
+        msg.setSubject(String.format("%s %s",sensor.machine, alertStage));
+        msg.setText(String.format("Die %s hat eine Temperature von: %f°C", sensor.machine, sensor.temperature));
         logger.info("send email to {}", recipient);
         try {
             javaMailSender.send(msg);

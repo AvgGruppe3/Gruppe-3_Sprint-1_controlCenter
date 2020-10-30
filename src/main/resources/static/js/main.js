@@ -14,7 +14,10 @@ const invokeGet = (url, div) =>{
                 div.style.background = '#910713';
             }else if(temperature >25){
                 div.style.background = '#e69c25';
-            } else{
+            }else if(temperature <=-273.2 ){
+                div.innerHTML = "Fehler Sensor nicht gefunden"
+                div.style.background = '#ffff66';
+            }else{
                 div.style.background = '#25e62b';
             }
         } else {
